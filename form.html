@@ -60,7 +60,7 @@
   <button onclick="submitForm()">✅ 確定</button>
 
   <script>
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/1Pi0M6MKvw-fEO1nzO9JFMs6ZG_en_dQNy_9JLoDg7sg/pubhtml';
+    const dataApi = 'https://script.google.com/macros/s/AKfycbwhgVu3XxlKMZm2L1n2DkqsZ97MZIUcK6jzIdsPI2KndVnmtkA8Btlr5SBsZWmzQ_7X/exec';
     const postUrl = 'YOUR_DEPLOYED_GAS_URL_HERE';
     let inventoryData = [];
 
@@ -95,19 +95,16 @@
       });
     }
 
-    // 載入 Tabletop 完成後再執行
-    function initWithTabletop() {
+    window.addEventListener('DOMContentLoaded', () => {
       updateTime();
       setInterval(updateTime, 1000);
 
-      Tabletop.init({
-        key: sheetUrl,
-        simpleSheet: true,
-        callback: function(data) {
+      fetch(dataApi)
+        .then(res => res.json())
+        .then(data => {
           inventoryData = data;
-          console.log("📦 資料預覽：", data.slice(0, 3));
-        }
-      });
+          console.log("📦 資料已載入：", data.slice(0, 3));
+        });
 
       document.getElementById('itemSearch').addEventListener('input', function() {
         const keyword = this.value.toLowerCase();
@@ -136,13 +133,7 @@
           list.appendChild(li);
         });
       });
-    }
-
-    // 載入 Tabletop.js 後才執行
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js';
-    script.onload = initWithTabletop;
-    document.head.appendChild(script);
+    });
   </script>
 </body>
 </html>
