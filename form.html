@@ -2,21 +2,43 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>庫存領取登記表</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
-    label { display: block; margin-top: 15px; }
-    select, input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; }
-    ul { list-style: none; padding: 0; margin: 0; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; background: white; position: absolute; width: 100%; z-index: 10; }
-    li { padding: 8px; border-bottom: 1px solid #eee; cursor: pointer; }
+    body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; margin: 0; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    select, input[type="text"] {
+      width: 100%; padding: 10px; margin-top: 5px; font-size: 16px;
+      box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;
+    }
+    ul {
+      list-style: none; padding: 0; margin: 0; border: 1px solid #ccc;
+      max-height: 200px; overflow-y: auto; background: white;
+      position: absolute; width: 100%; z-index: 10;
+    }
+    li {
+      padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;
+    }
     li:hover { background-color: #f0f0f0; }
-    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+    button {
+      margin-top: 20px; padding: 12px 20px; font-size: 18px; border: none;
+      background-color: #4CAF50; color: white; border-radius: 4px; cursor: pointer;
+    }
+    button:hover { background-color: #45a049; }
     .search-container { position: relative; }
-    .back-button { margin-top: 40px; display: inline-block; text-decoration: none; color: #3f51b5; font-weight: bold; }
+    .back-button {
+      margin-top: 30px; display: inline-block; text-decoration: none;
+      color: #3f51b5; font-weight: bold; font-size: 16px;
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      button { font-size: 16px; padding: 10px; }
+      .back-button { font-size: 14px; }
+    }
   </style>
 </head>
 <body>
-  <h1>📋 領取紀錄登記表</h1>
+  <h1 style="font-size: 24px">📋 領取紀錄登記表</h1>
   <a class="back-button" href="index.html">← 回到首頁</a>
 
   <label>選擇員工</label>
@@ -54,7 +76,7 @@
   </select>
 
   <label>現在時間</label>
-  <div id="nowTime"></div>
+  <div id="nowTime" style="margin-top: 8px; font-size: 16px;"></div>
 
   <button onclick="submitForm()">✅ 確定</button>
 
