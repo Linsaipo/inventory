@@ -82,7 +82,7 @@
 
   <script>
     const dataApi = 'https://script.google.com/macros/s/AKfycby3cS3PGsmL0oJ2Dh2J_ul7L5KQ-UMUAwg_TWluMhSVZ-yIBRU-frt48lhZ_qRqHjpC/exec';
-    const postUrl = 'https://script.google.com/macros/s/AKfycbzifKhvd4a9PyzDxygZ7wcfh0rBKZ2_mo2r4LA4Az8tDUl48z3LmWcvtnoiKHq51HgF/exec';
+    const postUrl = 'https://script.google.com/macros/s/AKfycbwXdTg9VS-XCmsJisa4KWJRQO4VBHyU0fBuJNTfUizYJIFWXkkKNgJnOG3tlQ-23JT5/exec';
     let inventoryData = [];
 
     function updateTime() {
@@ -134,17 +134,14 @@
         if (keyword.length === 0) return;
 
         const results = inventoryData.filter(row => {
-          const keys = Object.keys(row);
-          const nameKey = keys.find(k => k.includes('品項'));
-          const noKey = keys.find(k => k.includes('編號'));
-          if (!nameKey || !noKey) return false;
+          const nameKey = '品項名';
+          const noKey = '編號';
           return (row[nameKey] + row[noKey]).toLowerCase().includes(keyword);
         });
 
         results.forEach(row => {
-          const keys = Object.keys(row);
-          const nameKey = keys.find(k => k.includes('品項'));
-          const noKey = keys.find(k => k.includes('編號'));
+          const nameKey = '品項名';
+          const noKey = '編號';
           const li = document.createElement('li');
           li.textContent = `${row[nameKey]} ${row[noKey]}`;
           li.onclick = () => {
