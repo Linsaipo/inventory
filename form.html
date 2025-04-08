@@ -8,8 +8,11 @@
     body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
     label { display: block; margin-top: 15px; }
     select, input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; }
-    datalist option { padding: 5px; }
+    ul { list-style: none; padding: 0; margin: 0; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; background: white; position: absolute; width: 100%; z-index: 10; }
+    li { padding: 8px; border-bottom: 1px solid #eee; cursor: pointer; }
+    li:hover { background-color: #f0f0f0; }
     button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+    .search-container { position: relative; }
   </style>
 </head>
 <body>
@@ -34,11 +37,20 @@
   </select>
 
   <label>搜尋庫存品項</label>
-  <input type="text" id="itemSearch" list="itemList" placeholder="搜尋品項...">
-  <datalist id="itemList"></datalist>
+  <div class="search-container">
+    <input type="text" id="itemSearch" placeholder="搜尋品項...">
+    <ul id="suggestList"></ul>
+  </div>
 
   <label>選擇地點</label>
-  <select id="locationSelect"></select>
+  <select id="locationSelect">
+    <option value="文化路地下室">文化路地下室</option>
+    <option value="東義路">東義路</option>
+    <option value="新莊辦公室">新莊辦公室</option>
+    <option value="新莊貨櫃屋">新莊貨櫃屋</option>
+    <option value="得利卡">得利卡</option>
+    <option value="小霸王">小霸王</option>
+  </select>
 
   <label>現在時間</label>
   <div id="nowTime"></div>
@@ -74,6 +86,7 @@
       .then(data => {
         alert('✅ 已紀錄成功！');
         document.getElementById('itemSearch').value = '';
+        document.getElementById('suggestList').innerHTML = '';
       })
       .catch(err => {
         console.error(err);
@@ -90,26 +103,26 @@
         simpleSheet: true,
         callback: function(data, tabletop) {
           inventoryData = data;
-
-          // 自動建構地點選單（從目前位置欄位）
-          const locations = [...new Set(data.map(row => row['目前位置']).filter(Boolean))];
-          const locSelect = document.getElementById('locationSelect');
-          locations.forEach(loc => {
-            const opt = document.createElement('option');
-            opt.value = opt.textContent = loc;
-            locSelect.appendChild(opt);
-          });
-
-          // 建立 autocomplete 選項
-          const datalist = document.getElementById('itemList');
-          data.forEach(row => {
-            if (row['品項名'] && row['編號']) {
-              const option = document.createElement('option');
-              option.value = `${row['品項名']} - ${row['編號']}`;
-              datalist.appendChild(option);
-            }
-          });
         }
+      });
+
+      document.getElementById('itemSearch').addEventListener('input', function() {
+        const keyword = this.value.toLowerCase();
+        const list = document.getElementById('suggestList');
+        list.innerHTML = '';
+        if (keyword.length === 0) return;
+        const results = inventoryData.filter(row =>
+          (row['品項名'] + row['編號']).toLowerCase().includes(keyword)
+        );
+        results.forEach(row => {
+          const li = document.createElement('li');
+          li.textContent = `${row['品項名']} ${row['編號']}`;
+          li.onclick = () => {
+            document.getElementById('itemSearch').value = `${row['品項名']} ${row['編號']}`;
+            list.innerHTML = '';
+          }
+          list.appendChild(li);
+        });
       });
     });
   </script>
