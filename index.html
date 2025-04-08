@@ -2,28 +2,60 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>庫存表展示</title>
+  <title>庫存表</title>
+  <script src="https://unpkg.com/tabletop@1.6.0/tabletop.js"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
-    }
-    iframe {
-      width: 100%;
-      height: 700px;
-      border: none;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-    }
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #f2f2f2; }
   </style>
 </head>
 <body>
   <h1>📦 庫存表</h1>
-  <iframe 
-    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQZc-Oe5hXdGuMqFcMzsMMX6CfZw2xR7_aFeRAs97U1EVu1JXRuQp6ukvBKoHWrOfi5dzw1vHFc4GyX/pubhtml?widget=true&headers=false">
-  </iframe>
+  <table id="inventory">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1Pi0M6MKvw-fEO1nzO9JFMs6ZG_en_dQNy_9JLoDg7sg/pubhtml';
+
+    function showInfo(data) {
+      const tableHead = document.querySelector("#inventory thead");
+      const tableBody = document.querySelector("#inventory tbody");
+
+      // 建立標題列
+      if (data.length > 0) {
+        const headers = Object.keys(data[0]);
+        const trHead = document.createElement("tr");
+        headers.forEach(h => {
+          const th = document.createElement("th");
+          th.textContent = h;
+          trHead.appendChild(th);
+        });
+        tableHead.appendChild(trHead);
+      }
+
+      // 建立資料列
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        for (const key in row) {
+          const td = document.createElement("td");
+          td.textContent = row[key];
+          tr.appendChild(td);
+        }
+        tableBody.appendChild(tr);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: showInfo,
+        simpleSheet: true
+      });
+    });
+  </script>
 </body>
 </html>
