@@ -1,90 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>庫存表展示</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="zh-Hant"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;庫存表&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://unpkg.com/tabletop@1.6.0/tabletop.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>table {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-collapse: collapse;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>th, td {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>th {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: #f2f2f2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;庫存表&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;table id="inventory"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;thead&gt;&lt;/thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;tbody&gt;&lt;/tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/table&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1Pi0M6MKvw-fEO1nzO9JFMs6ZG_en_dQNy_9JLoDg7sg/pubhtml';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function showInfo(data) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const tableHead = document.querySelector("#inventory thead");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const tableBody = document.querySelector("#inventory tbody");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// 建立標題列</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (data.length &gt; 0) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const headers = Object.keys(data[0]);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const trHead = document.createElement("tr");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>headers.forEach(h =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const th = document.createElement("th");</p>
-<p class="p1"><span class="Apple-converted-space">          </span>th.textContent = h;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>trHead.appendChild(th);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>tableHead.appendChild(trHead);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// 建立資料列</p>
-<p class="p1"><span class="Apple-converted-space">      </span>data.forEach(row =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tr = document.createElement("tr");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>for (const key in row) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const td = document.createElement("td");</p>
-<p class="p1"><span class="Apple-converted-space">          </span>td.textContent = row[key];</p>
-<p class="p1"><span class="Apple-converted-space">          </span>tr.appendChild(td);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>tableBody.appendChild(tr);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>window.addEventListener('DOMContentLoaded', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Tabletop.init({</p>
-<p class="p1"><span class="Apple-converted-space">        </span>key: publicSpreadsheetUrl,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>callback: showInfo,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>simpleSheet: true</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <h1>📦 庫存表</h1>
+  <iframe 
+    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQZc-Oe5hXdGuMqFcMzsMMX6CfZw2xR7_aFeRAs97U1EVu1JXRuQp6ukvBKoHWrOfi5dzw1vHFc4GyX/pubhtml?widget=true&headers=false">
+  </iframe>
 </body>
 </html>
