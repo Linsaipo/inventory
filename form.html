@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>庫存領取登記表</title>
+  <script src="https://unpkg.com/tabletop@1.6.0/tabletop.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
+    label { display: block; margin-top: 15px; }
+    select, input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; }
+    datalist option { padding: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>📋 領取紀錄登記表</h1>
+
+  <label>選擇員工</label>
+  <select id="staffSelect">
+    <option value="">請選擇</option>
+    <option>林加添</option>
+    <option>許凰兒</option>
+    <option>林帥伯</option>
+    <option>林明泰</option>
+    <option>許維誠</option>
+    <option>蔡明哲</option>
+    <option>楊博傑</option>
+    <option>陳佳祥</option>
+    <option>葉辰語</option>
+    <option>楊富翔</option>
+    <option>蕭和典</option>
+    <option>何雅筑</option>
+    <option>蔡家欣</option>
+  </select>
+
+  <label>搜尋庫存品項</label>
+  <input type="text" id="itemSearch" list="itemList" placeholder="搜尋品項...">
+  <datalist id="itemList"></datalist>
+
+  <label>選擇地點</label>
+  <select id="locationSelect"></select>
+
+  <label>現在時間</label>
+  <div id="nowTime"></div>
+
+  <button onclick="submitForm()">✅ 確定</button>
+
+  <script>
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/1Pi0M6MKvw-fEO1nzO9JFMs6ZG_en_dQNy_9JLoDg7sg/pubhtml';
+    const postUrl = 'YOUR_DEPLOYED_GAS_URL_HERE'; // 改成你的 GAS 網址
+
+    let inventoryData = [];
+
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('nowTime').textContent = now.toLocaleString();
+    }
+
+    function submitForm() {
+      const staff = document.getElementById('staffSelect').value;
+      const item = document.getElementById('itemSearch').value;
+      const location = document.getElementById('locationSelect').value;
+      const now = new Date().toLocaleString();
+
+      if (!staff || !item || !location) return alert('請填寫所有欄位');
+
+      const payload = { staff, item, location, time: now };
+      fetch(postUrl, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert('✅ 已紀錄成功！');
+        document.getElementById('itemSearch').value = '';
+      })
+      .catch(err => {
+        console.error(err);
+        alert('❌ 發生錯誤，請稍後再試');
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateTime();
+      setInterval(updateTime, 1000);
+
+      Tabletop.init({
+        key: sheetUrl,
+        simpleSheet: true,
+        callback: function(data, tabletop) {
+          inventoryData = data;
+
+          // 自動建構地點選單（從目前位置欄位）
+          const locations = [...new Set(data.map(row => row['目前位置']).filter(Boolean))];
+          const locSelect = document.getElementById('locationSelect');
+          locations.forEach(loc => {
+            const opt = document.createElement('option');
+            opt.value = opt.textContent = loc;
+            locSelect.appendChild(opt);
+          });
+
+          // 建立 autocomplete 選項
+          const datalist = document.getElementById('itemList');
+          data.forEach(row => {
+            if (row['品項名'] && row['編號']) {
+              const option = document.createElement('option');
+              option.value = `${row['品項名']} - ${row['編號']}`;
+              datalist.appendChild(option);
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
