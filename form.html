@@ -59,7 +59,7 @@
 
   <script>
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/1Pi0M6MKvw-fEO1nzO9JFMs6ZG_en_dQNy_9JLoDg7sg/pubhtml';
-    const postUrl = 'YOUR_DEPLOYED_GAS_URL_HERE'; // 改成你的 GAS 網址
+    const postUrl = 'YOUR_DEPLOYED_GAS_URL_HERE';
 
     let inventoryData = [];
 
@@ -103,6 +103,10 @@
         simpleSheet: true,
         callback: function(data, tabletop) {
           inventoryData = data;
+          console.log("資料預覽：", data.slice(0, 3));
+          if (data.length > 0) {
+            console.log("欄位名稱：", Object.keys(data[0]));
+          }
         }
       });
 
@@ -111,14 +115,21 @@
         const list = document.getElementById('suggestList');
         list.innerHTML = '';
         if (keyword.length === 0) return;
-        const results = inventoryData.filter(row =>
-          (row['品項名'] + row['編號']).toLowerCase().includes(keyword)
-        );
+        const results = inventoryData.filter(row => {
+          const keys = Object.keys(row);
+          const nameKey = keys.find(k => k.includes('品項'));
+          const noKey = keys.find(k => k.includes('編號'));
+          if (!nameKey || !noKey) return false;
+          return (row[nameKey] + row[noKey]).toLowerCase().includes(keyword);
+        });
         results.forEach(row => {
+          const keys = Object.keys(row);
+          const nameKey = keys.find(k => k.includes('品項'));
+          const noKey = keys.find(k => k.includes('編號'));
           const li = document.createElement('li');
-          li.textContent = `${row['品項名']} ${row['編號']}`;
+          li.textContent = `${row[nameKey]} ${row[noKey]}`;
           li.onclick = () => {
-            document.getElementById('itemSearch').value = `${row['品項名']} ${row['編號']}`;
+            document.getElementById('itemSearch').value = `${row[nameKey]} ${row[noKey]}`;
             list.innerHTML = '';
           }
           list.appendChild(li);
