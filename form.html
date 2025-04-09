@@ -82,7 +82,7 @@
 
   <script>
     const dataApi = 'https://script.google.com/macros/s/AKfycbybqN85Z5kPlyLkT-141cUwgpTuiJr4Vkpw1Ex0iJv8yNTzFpU-GydIIFPTaZ_xPKAj/exec';
-    const postUrl = 'https://script.google.com/macros/s/AKfycbybqN85Z5kPlyLkT-141cUwgpTuiJr4Vkpw1Ex0iJv8yNTzFpU-GydIIFPTaZ_xPKAj/exec';
+    const postUrl = dataApi;
     let inventoryData = [];
 
     function updateTime() {
@@ -98,11 +98,14 @@
 
       if (!staff || !item || !location) return alert('請填寫所有欄位');
 
-      const payload = { staff, item, location, time: now };
+      const payload = new URLSearchParams({ staff, item, location, time: now });
+
       fetch(postUrl, {
         method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: payload
       })
       .then(res => res.json())
       .then(data => {
