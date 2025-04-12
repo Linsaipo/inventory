@@ -22,21 +22,40 @@
       margin: 20px auto;
       padding: 20px;
       font-size: 20px;
-      background-color: #007acc;
       color: white;
       text-decoration: none;
       border-radius: 10px;
       transition: background-color 0.3s;
     }
-    .button:hover {
+    .btn-device {
+      background-color: #007acc;
+    }
+    .btn-device:hover {
       background-color: #005fa3;
     }
+    .btn-med {
+      background-color: #28a745;
+    }
+    .btn-med:hover {
+      background-color: #1e7e34;
+    }
+    .btn-inventory {
+      background-color: #6f42c1;
+    }
+    .btn-inventory:hover {
+      background-color: #5936a2;
+    }
   </style>
+
 </head>
 <body>
   <h1>📦 庫存系統首頁</h1>
 
-  <a href="inventory.html" class="button">查看庫存總表</a>
-<a href="https://script.google.com/macros/s/AKfycbyXwxMuAEQQIdegPamJ5-BLVvu0oxj7y2Iv_yPx2RjYh9_8ZnQxia-oFo-N86sj3y80/exec" class="button">填寫領用表單</a>
+<!-- 請用你實際的 Web App 網址替換下面這一段 -->
+<a href="https://script.google.com/macros/s/AKfycbx8A823fQGltTrzRg1VgcyDR73w3DqhcqScOwsLzcsSBRvQRKEnA_hG_iIAbkWsiqhq/exec?page=form" class="button btn-device">設備領用表單</a>
+
+<a href="https://script.google.com/macros/s/AKfycbx8A823fQGltTrzRg1VgcyDR73w3DqhcqScOwsLzcsSBRvQRKEnA_hG_iIAbkWsiqhq/exec?page=medform" class="button btn-med">藥品領用表單</a>
+
+<a href="https://script.google.com/macros/s/AKfycbx8A823fQGltTrzRg1VgcyDR73w3DqhcqScOwsLzcsSBRvQRKEnA_hG_iIAbkWsiqhq/exec?page=inventory" class="button btn-inventory">查看庫存總表</a>
 </body>
 </html>
