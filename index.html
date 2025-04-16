@@ -6,56 +6,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      background-color: #f0f4f8;
+      background: linear-gradient(145deg, #e6ecf3, #f9fbfc);
       padding: 40px 20px;
+      color: #333;
     }
+
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       margin-bottom: 40px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
     }
+
+    h1 img {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+    }
+
     .button {
       display: block;
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
       margin: 20px auto;
       padding: 20px;
-      font-size: 20px;
+      font-size: 18px;
+      font-weight: 600;
       color: white;
       text-decoration: none;
-      border-radius: 10px;
-      transition: background-color 0.3s;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
     .btn-device {
-      background-color: #007acc;
+      background: linear-gradient(135deg, #007acc, #00b4d8);
     }
-    .btn-device:hover {
-      background-color: #005fa3;
-    }
+
     .btn-med {
-      background-color: #28a745;
+      background: linear-gradient(135deg, #28a745, #63d471);
     }
-    .btn-med:hover {
-      background-color: #1e7e34;
-    }
+
     .btn-inventory {
-      background-color: #6f42c1;
-    }
-    .btn-inventory:hover {
-      background-color: #5936a2;
+      background: linear-gradient(135deg, #6f42c1, #b36ff0);
     }
   </style>
-
 </head>
 <body>
-  <h1>📦 庫存系統首頁</h1>
+  <h1>
+    <img src="lion_logo_nobg.png" alt="Logo">
+    庫存系統首頁
+  </h1>
 
-<!-- 請用你實際的 Web App 網址替換下面這一段 -->
-<a href="https://script.google.com/macros/s/AKfycbx8A823fQGltTrzRg1VgcyDR73w3DqhcqScOwsLzcsSBRvQRKEnA_hG_iIAbkWsiqhq/exec?page=form" class="button btn-device">設備領用表單</a>
-
-<a href="https://script.google.com/macros/s/AKfycbx8A823fQGltTrzRg1VgcyDR73w3DqhcqScOwsLzcsSBRvQRKEnA_hG_iIAbkWsiqhq/exec?page=medform" class="button btn-med">藥品領用表單</a>
-
-<a href="https://script.google.com/macros/s/AKfycbx8A823fQGltTrzRg1VgcyDR73w3DqhcqScOwsLzcsSBRvQRKEnA_hG_iIAbkWsiqhq/exec?page=inventory" class="button btn-inventory">查看庫存總表</a>
+  <a href="?page=form" class="button btn-device">設備領用表單</a>
+  <a href="?page=medform" class="button btn-med">藥品領用表單</a>
+  <a href="?page=inventory" class="button btn-inventory">查看庫存總表</a>
 </body>
 </html>
